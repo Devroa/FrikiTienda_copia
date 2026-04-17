@@ -1,0 +1,30 @@
+MS1: GESTION DE USUARIOS
+-Crud de usuarios
+Clase/Entidad Usuario
+nombre - String
+correo - String
+contraseña - String
+
+crear , actualizar(correo) , borrar(correo)
+
+MS2: SERVICIO DE CATALOGO
+
+Clase/Entidad Producto
+id - Integer
+nombre - String
+precio - Double
+categoria - String
+stock - Integer
+
+buscar (categoria)/(nombre)/(id) , ordenar(precio)
+
+MS3: GESTION DE INVENTARIO
+
+Clase/Entidad Producto
+id - Integer
+nombre - String
+precio - Double
+categoria - String
+stock - Integer
+
+agregar, actualizar(id) , borrar(id)
