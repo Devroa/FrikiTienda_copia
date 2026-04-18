@@ -1,73 +1,191 @@
-Sistema de Gestión de Tienda Friki & Gamer
-Asignatura: Desarrollo FullStack 1 (DSY1103) | Proyecto Semestral
-📝 Descripción
-GeekStore es una plataforma basada en microservicios diseñada para la venta de productos de cultura pop, videojuegos y artículos coleccionables. El sistema permite la gestión de usuarios, catálogo dinámico, control de inventario en tiempo real y procesamiento de pedidos, utilizando una arquitectura distribuida y escalable.
+# 📌 Proyecto Microservicios - Plataforma GamerShop
 
-🏛️ Arquitectura del Sistema
-El proyecto sigue el patrón de diseño CSR (Controller-Service-Repository) en cada microservicio, asegurando una separación clara de responsabilidades:
+## 📖 Descripción del Proyecto
 
-Controller: Gestión de endpoints REST y validación de entrada con @Valid.
+El presente proyecto consiste en el desarrollo de una plataforma de ventas de productos gamer y cultura friki, implementada bajo una arquitectura de microservicios utilizando Spring Boot.
 
-Service: Lógica de negocio (reglas de la tienda gamer).
+El sistema permite gestionar usuarios, productos, pedidos, pagos y otras funcionalidades, mediante servicios independientes que se comunican entre sí a través de APIs REST.
 
-Repository: Persistencia de datos mediante Spring Data JPA.
+---
 
-📦 Listado de Microservicios (Mínimo 10)
-Para cumplir con las directrices académicas, el ecosistema se compone de:
+## 🎯 Objetivo
 
-ms-gateway (Infraestructura): Punto de entrada único. Gestiona el enrutamiento hacia todos los servicios.
+Diseñar e implementar una arquitectura distribuida basada en microservicios que permita:
 
-ms-usuarios (Gestión de Usuarios): Registro, actualización de perfiles y roles (Admin/Cliente).
+* Separación de responsabilidades
+* Comunicación entre servicios
+* Persistencia independiente
+* Implementación de reglas de negocio
+* Manejo de errores y validaciones
 
-ms-catalogo (Servicio de Catálogo): Consulta de productos, filtros por categoría gamer y búsqueda por nombre.
+---
 
-ms-inventario (Gestión de Stock): Control de existencias, actualización de ID de productos y alertas de stock bajo.
+## 🧱 Arquitectura del Sistema
 
-ms-pedidos (Servicio de Órdenes): Generación de boletas y gestión del estado de la compra.
+El sistema está compuesto por **10 microservicios independientes**, cada uno con responsabilidad específica:
 
-ms-carrito (Shopping Cart): Persistencia temporal de artículos seleccionados por el usuario.
+| Microservicio         | Responsabilidad           |
+| --------------------- | ------------------------- |
+| MS1 - Usuarios        | Gestión de usuarios       |
+| MS2 - . . . . . .     | Responsabilidad ms2       |
+| MS3 - . . . . .       | Responsabilidad ms3       |
+| MS4 - . . . . .       | Responsabilidad ms4       |
+| MS5 - . . . . .       | Responsabilidad ms5       |
+| MS6 - . . . . .       | Responsabilidad ms6       |
+| MS7 - . . . . .       | Responsabilidad ms7       |
+| MS8 - . . . . .       | Responsabilidad ms8       |
+| MS9 - . . . . .       | Responsabilidad ms9       |
+| MS10 - . . . . .      | Responsabilidad ms10      |
 
-ms-pagos (Payment Service): Simulación de transacciones seguras para la compra de artículos.
+---
 
-ms-valoraciones (Reviews): Sistema de estrellas y comentarios para productos (0-5 estrellas).
+## 🗄️ Persistencia de Datos 
 
-ms-notificaciones (Notifications): Envío simulado de correos de confirmación de compra y despacho.
+* Cada microservicio posee su propia base de datos.
+* No se comparten tablas entre servicios.
+* Se mantiene la integridad referencial dentro de cada servicio.
+* Se utiliza **MySQL** como motor de base de datos.
 
-ms-descuentos (Promo Service): Aplicación de cupones (ej: "FRIKI20") y descuentos por nivel de usuario.
+---
 
-🚀 Requisitos Técnicos Implementados
-Comunicación Inter-Servicios: Uso de Feign Clients o WebClient para que ms-pedidos descuente stock en ms-inventario.
+## 🧩 Estructura de Microservicios (Patrón CSR)
 
-Validación de Datos: Implementación de @NotBlank, @Min, y @Email para asegurar la integridad de los datos.
+Cada microservicio implementa el patrón:
 
-Calidad de Software: Cobertura de pruebas unitarias mínima del 80% mediante JUnit 5 y Mockito.
+* **Controller** → Manejo de endpoints REST
+* **Service** → Lógica de negocio
+* **Repository** → Acceso a datos (JpaRepository)
+* **Model (Entity)** → Representación de datos
 
-Documentación: API documentada íntegramente con Swagger / OpenAPI 3.
+---
 
-Manejo de Excepciones: Respuestas HTTP estandarizadas mediante @ControllerAdvice.
+## 🔄 Operaciones CRUD
 
-🛠️ Instrucciones de Ejecución
-Requisitos Previos
-Java 21+
-Spring (Spring boot-,etc)
-Maven 
+Cada microservicio implementa operaciones CRUD completas sobre sus entidades principales:
 
-Base de Datos (MySQL/PostgreSQL para persistencia real)
+Ejemplo:
 
-Pasos
-Configurar Base de Datos: Ajustar los archivos application.yml de cada microservicio.
+### MS1 - Usuarios
 
-Levantar Gateway: Ejecutar primero el ms-gateway en el puerto 8080 (Puertos pueden ser personalizados).
+* POST /usuarios → Crear usuario
+* GET /usuarios → Obtener usuarios
+* PUT /usuarios/{id} → Actualizar usuario
+* DELETE /usuarios/{id} → Eliminar usuario
 
-Ejecutar Microservicios: Iniciar el resto de los servicios de forma independiente (10 ms minimo).
+### MS3 - Catálogo
 
-Pruebas: Acceder a través de Postman o Swagger mediante la ruta del Gateway.
+* GET /productos
+* GET /productos/{id}
+* GET /productos?categoria=
 
-👥 Equipo de Desarrollo
-Estudiante 1: [Nombre] - (Ej: ms01 , ms02, ms03)
+---
 
-Estudiante 2: [Nombre] - (Ej: ms04,ms05 ,ms06)
+## ⚙️ Reglas de Negocio
 
-Estudiante 3: [Nombre] - (Ej: ms07 ,ms08 ,msd09)
+El sistema implementa reglas de negocio relevantes, tales como:
 
-Nota de Evaluación: Este proyecto cumple con los indicadores de logro (IE) de las evaluaciones parciales 2 y 3.
+* Validación de existencia de usuario antes de crear pedido
+* Verificación de stock antes de confirmar compra
+* Bloqueo de compra si el stock es insuficiente
+* Cálculo de total de pedido
+
+---
+
+## ✅ Validaciones
+
+Se implementan validaciones utilizando **Bean Validation (JSR 380)**:
+
+* Campos obligatorios (@NotNull, @NotBlank)
+* Validación de formato (correo, longitud, etc.)
+* Validación de datos en los controladores mediante DTOs
+
+---
+
+## ⚠️ Manejo de Excepciones
+
+* Uso de `@ControllerAdvice` para manejo global
+* Respuestas con `ResponseEntity`
+* Códigos HTTP adecuados:
+
+  * 200 OK
+  * 201 CREATED
+  * 400 BAD REQUEST
+  * 404 NOT FOUND
+
+---
+## 📡 Comunicación entre Microservicios
+
+Los microservicios se comunican mediante:
+
+* **REST APIs**
+* Uso de **WebClient o Feign Client**
+
+Ejemplo de flujo (Solo ejemplo):
+
+1. Pedido consulta inventario
+2. Inventario valida stock
+3. Pedido solicita pago
+4. Pago responde estado
+
+---
+
+## 📑 Endpoints REST
+
+* Uso de rutas semánticas
+* Métodos HTTP correctos (GET, POST, PUT, DELETE)
+* Respuestas en formato JSON
+* Uso de parámetros y request body estructurados
+
+---
+
+## 🧾 Logs
+
+Se implementan logs mediante **SLF4J** para:
+
+* Registro de operaciones
+* Seguimiento de errores
+* Trazabilidad del sistema
+
+---
+
+## 🧪 Pruebas
+
+Se realizan pruebas de endpoints mediante:
+
+* Postman
+
+---
+
+## 🛠️ Tecnologías Utilizadas
+
+* Java 21+
+* Spring Boot
+* Spring Data JPA
+* MySQL
+* Maven
+
+---
+
+## 📂 Repositorio
+
+El proyecto se gestiona mediante GitHub, cumpliendo con:
+
+* Commits progresivos y descriptivos
+* Trabajo colaborativo
+* Organización del código por microservicio
+
+---
+
+## 👥 Integrantes
+
+* Nombre 1 
+* Nombre 2
+* Nombre 3
+
+---
+
+## 🚀 Estado del Proyecto
+
+En desarrollo – implementación de microservicios base para evaluación parcial 2.
+
+---
