@@ -1,62 +1,73 @@
-# [NOMBRE DEL PROYECTO] - Sistema de Gestión de [DOMINIO]
+Sistema de Gestión de Tienda Friki & Gamer
+Asignatura: Desarrollo FullStack 1 (DSY1103) | Proyecto Semestral
+📝 Descripción
+GeekStore es una plataforma basada en microservicios diseñada para la venta de productos de cultura pop, videojuegos y artículos coleccionables. El sistema permite la gestión de usuarios, catálogo dinámico, control de inventario en tiempo real y procesamiento de pedidos, utilizando una arquitectura distribuida y escalable.
 
-## Descripción del Proyecto
-[cite_start]Este proyecto consiste en una solución completa basada en una arquitectura de microservicios para resolver [breve descripción del problema real o necesidad que cubre][cite: 88, 268]. [cite_start]El sistema está diseñado para ofrecer una gestión integral de [módulos principales], asegurando escalabilidad, independencia funcional y alta cohesión[cite: 89, 271].
+🏛️ Arquitectura del Sistema
+El proyecto sigue el patrón de diseño CSR (Controller-Service-Repository) en cada microservicio, asegurando una separación clara de responsabilidades:
 
-## Integrantes del Equipo
-* **Nombre Estudiante 1** - Rol/Aportes
-* **Nombre Estudiante 2** - Rol/Aportes
-* **Nombre Estudiante 3** - Rol/Aportes
+Controller: Gestión de endpoints REST y validación de entrada con @Valid.
 
-## Requisitos del Sistema y Arquitectura
-[cite_start]El sistema cumple con las directrices académicas del tercer semestre, garantizando un estándar de complejidad profesional[cite: 266, 308].
+Service: Lógica de negocio (reglas de la tienda gamer).
 
-### Características Principales:
-* [cite_start]**Arquitectura:** Microservicios independientes desarrollados con **Spring Boot**[cite: 272, 312].
-* [cite_start]**Cantidad de Microservicios:** Mínimo 10 servicios desacoplados[cite: 90, 314, 556].
-* [cite_start]**Patrón de Diseño:** Cada microservicio aplica el patrón **CSR** (Controller-Service-Repository)[cite: 110, 150, 576].
-* [cite_start]**Persistencia:** Real con **JPA + Hibernate**, incluyendo normalización de datos e integridad referencial[cite: 130, 131, 138].
-* [cite_start]**API Gateway:** Centralización de rutas mediante **Spring Cloud Gateway**[cite: 279, 460, 633].
+Repository: Persistencia de datos mediante Spring Data JPA.
 
-## Listado de Microservicios
-1.  **[Nombre Servicio 1]:** Responsable de [función].
-2.  **[Nombre Servicio 2]:** Responsable de [función].
-[cite_start]... (Completar hasta llegar a los 10) [cite: 662]
+📦 Listado de Microservicios (Mínimo 10)
+Para cumplir con las directrices académicas, el ecosistema se compone de:
 
-## Especificaciones Técnicas
+ms-gateway (Infraestructura): Punto de entrada único. Gestiona el enrutamiento hacia todos los servicios.
 
-### Comunicación entre Servicios
-Se implementa comunicación síncrona mediante:
-* [cite_start]**WebClient** o **Feign Client** para el consumo de endpoints remotos[cite: 171, 172, 631].
-* [cite_start]Manejo de timeouts, validación de datos recibidos y tratamiento de errores remotos[cite: 174, 632].
+ms-usuarios (Gestión de Usuarios): Registro, actualización de perfiles y roles (Admin/Cliente).
 
-### Validaciones y Manejo de Errores
-* [cite_start]**Bean Validation (JSR 380):** Uso de anotaciones en DTOs y entidades para asegurar datos limpios[cite: 139, 142].
-* [cite_start]**@ControllerAdvice:** Manejo centralizado de excepciones con respuestas estructuradas en JSON y códigos HTTP adecuados[cite: 145, 146, 166].
+ms-catalogo (Servicio de Catálogo): Consulta de productos, filtros por categoría gamer y búsqueda por nombre.
 
-### Calidad y Pruebas
-* [cite_start]**Pruebas Unitarias:** Implementadas con **JUnit** y **Mockito** en `src/test/java`[cite: 610, 616].
-* [cite_start]**Cobertura:** Mínimo **80% de cobertura** en la lógica de negocio[cite: 666].
-* [cite_start]**Logs:** Trazabilidad de eventos mediante **SLF4J**[cite: 167, 168].
+ms-inventario (Gestión de Stock): Control de existencias, actualización de ID de productos y alertas de stock bajo.
 
-### Documentación
-Cada microservicio cuenta con documentación interactiva:
-* [cite_start]**Swagger/OpenAPI:** Accesible para explorar endpoints, parámetros y modelos de respuesta[cite: 580, 621, 624].
+ms-pedidos (Servicio de Órdenes): Generación de boletas y gestión del estado de la compra.
 
-## Instrucciones de Ejecución
+ms-carrito (Shopping Cart): Persistencia temporal de artículos seleccionados por el usuario.
 
-### Entorno Local
-1.  Clonar el repositorio.
-2.  [cite_start]Configurar las propiedades de base de datos en los archivos `application.yml` de cada servicio[cite: 134, 635].
-3.  [cite_start]Ejecutar las migraciones iniciales (Scripts SQL o Flyway)[cite: 135].
-4.  Levantar el **API Gateway** y luego los microservicios individuales.
+ms-pagos (Payment Service): Simulación de transacciones seguras para la compra de artículos.
 
-### Despliegue (Opcional/Remoto)
-* [cite_start]Configuración disponible para despliegue en contenedores **Docker** o plataformas como **Railway/Render**[cite: 584, 646].
+ms-valoraciones (Reviews): Sistema de estrellas y comentarios para productos (0-5 estrellas).
 
-## Gestión del Proyecto
-* [cite_start]**GitHub:** Historial de commits técnicos y progresivos siguiendo buenas prácticas de versionamiento[cite: 191, 199, 667].
-* [cite_start]**Trello:** (Opcional) Tablero de tareas para la organización de roles y avances del equipo[cite: 590, 675].
+ms-notificaciones (Notifications): Envío simulado de correos de confirmación de compra y despacho.
 
----
-[cite_start]*Nota: Este proyecto fue desarrollado como parte de la Evaluación Sumativa de la asignatura Desarrollo FullStack 1 (DSY1103) - Duoc UC[cite: 76, 541].*
+ms-descuentos (Promo Service): Aplicación de cupones (ej: "FRIKI20") y descuentos por nivel de usuario.
+
+🚀 Requisitos Técnicos Implementados
+Comunicación Inter-Servicios: Uso de Feign Clients o WebClient para que ms-pedidos descuente stock en ms-inventario.
+
+Validación de Datos: Implementación de @NotBlank, @Min, y @Email para asegurar la integridad de los datos.
+
+Calidad de Software: Cobertura de pruebas unitarias mínima del 80% mediante JUnit 5 y Mockito.
+
+Documentación: API documentada íntegramente con Swagger / OpenAPI 3.
+
+Manejo de Excepciones: Respuestas HTTP estandarizadas mediante @ControllerAdvice.
+
+🛠️ Instrucciones de Ejecución
+Requisitos Previos
+Java 21+
+Spring (Spring boot-,etc)
+Maven 
+
+Base de Datos (MySQL/PostgreSQL para persistencia real)
+
+Pasos
+Configurar Base de Datos: Ajustar los archivos application.yml de cada microservicio.
+
+Levantar Gateway: Ejecutar primero el ms-gateway en el puerto 8080 (Puertos pueden ser personalizados).
+
+Ejecutar Microservicios: Iniciar el resto de los servicios de forma independiente (10 ms minimo).
+
+Pruebas: Acceder a través de Postman o Swagger mediante la ruta del Gateway.
+
+👥 Equipo de Desarrollo
+Estudiante 1: [Nombre] - (Ej: ms01 , ms02, ms03)
+
+Estudiante 2: [Nombre] - (Ej: ms04,ms05 ,ms06)
+
+Estudiante 3: [Nombre] - (Ej: ms07 ,ms08 ,msd09)
+
+Nota de Evaluación: Este proyecto cumple con los indicadores de logro (IE) de las evaluaciones parciales 2 y 3.
